@@ -9,12 +9,9 @@ import org.junit.Test;
 import play.Application;
 import play.ApplicationLoader;
 import play.Environment;
-import play.core.j.JavaResultExtractor;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.inject.guice.GuiceApplicationLoader;
 import play.libs.Json;
-import play.mvc.BodyParser;
-import play.mvc.BodyParser.Json.*;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
@@ -57,8 +54,7 @@ public class HelloControllerSpec {
 
 
     @Test
-    @BodyParser.Of(BodyParser.Json.class)
-    public void testBadRoute() {
+    public void testHelloGreeting() {
         Http.RequestBuilder request = Helpers.fakeRequest()
                 .method(GET)
                 .uri("/from/me");
@@ -69,8 +65,7 @@ public class HelloControllerSpec {
 
         Greeting hello = new Greeting("hello", "me");
         Greeting responseGreeting = Json.fromJson(
-                Json.parse(Helpers.contentAsString(result)),
-                Greeting.class);
+                Json.parse(Helpers.contentAsString(result)), Greeting.class);
 
         assertEquals(hello.name, responseGreeting.name);
         assertEquals(hello.greeting, responseGreeting.greeting);
