@@ -1,4 +1,4 @@
-package com.dhl.playservice.controllers;
+package models;
 
 public class Greeting {
     public String greeting;

@@ -1,8 +1,7 @@
-package com.dhl.playservice.controllers;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Module;
+import models.Greeting;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

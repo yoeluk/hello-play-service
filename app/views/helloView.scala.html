@@ -1,0 +1,10 @@
+@import controllers.routes
+
+@import play.mvc.Http
+
+@(name: String, request: Http.RequestHeader)
+
+<h1>Hello @name</h1>
+
+<a href="@routes.HelloController.byName(name)">Absolute Link</a>
+<a href="@routes.HelloController.byName(name).relativeTo(request)">Relative Link</a>

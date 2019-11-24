@@ -5,8 +5,7 @@ version := "0.1"
 scalaVersion := "2.13.1"
 
 lazy val `hello-play-service` = (project in file("."))
-  .enablePlugins(PlayService)
-  .enablePlugins(RoutesCompiler)
+  .enablePlugins(PlayMinimalJava)
   .settings(
     libraryDependencies ++= Seq(
       guice,
