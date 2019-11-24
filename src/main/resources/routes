@@ -1,0 +1,4 @@
+
+GET /from/:name           com.dhl.playservice.controllers.HelloController.byName(name)
+
+GET /from                 com.dhl.playservice.controllers.HelloController.byName(name: String ?= null)
