@@ -7,6 +7,7 @@ import play.mvc.Result;
 public class HelloController extends Controller {
 
     public Result byName(String name) {
-        return ok(Json.toJson("hello " + name));
+        Greeting hello = new Greeting("hello", name);
+        return ok(Json.toJson(hello));
     }
 }
