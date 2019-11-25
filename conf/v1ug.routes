@@ -1,0 +1,2 @@
+
+POST /adduser               controllers.UserGreetingController.addUser(request: Request)

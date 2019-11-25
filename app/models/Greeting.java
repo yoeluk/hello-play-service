@@ -1,18 +1,24 @@
 package models;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Value;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Value
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class Greeting {
-    public String greeting;
-    public String name;
-    public Greeting(String greeting, String name) {
-        this.greeting = greeting;
-        this.name = name;
-    }
-    private Greeting() {}
+    public final String greeting;
+    public final String message;
 
+    /**
+     * legacy greeting store for HelloController
+     */
     private static ConcurrentHashMap<String, Object> greetings;
 
     private static Object stub() {

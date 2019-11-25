@@ -21,7 +21,7 @@ public class HelloControllerSpec extends TestApplication {
     public void testHelloGreeting() {
         Http.RequestBuilder request = Helpers.fakeRequest()
                 .method(GET)
-                .uri("/from/me");
+                .uri("/v0/from/me");
 
         Result result = route(application, request);
 
@@ -31,8 +31,7 @@ public class HelloControllerSpec extends TestApplication {
         Greeting responseGreeting = Json.fromJson(
                 Json.parse(Helpers.contentAsString(result)), Greeting.class);
 
-        assertEquals(hello.name, responseGreeting.name);
-        assertEquals(hello.greeting, responseGreeting.greeting);
+        assertEquals(hello, responseGreeting);
     }
 
     @Test
@@ -40,7 +39,7 @@ public class HelloControllerSpec extends TestApplication {
         Http.RequestBuilder morningRequest = Helpers.fakeRequest()
                 .method(POST)
                 .bodyText("good morning")
-                .uri("/api/addgreeting");
+                .uri("/v0/api/addgreeting");
 
         Result morningResult = route(application, morningRequest);
 
@@ -49,7 +48,7 @@ public class HelloControllerSpec extends TestApplication {
         Http.RequestBuilder helloRequest = Helpers.fakeRequest()
                 .method(POST)
                 .bodyText("hello")
-                .uri("/api/addgreeting");
+                .uri("/v0/api/addgreeting");
 
         Result helloResult = route(application, helloRequest);
 
@@ -57,7 +56,7 @@ public class HelloControllerSpec extends TestApplication {
 
         Http.RequestBuilder greetingsRequest = Helpers.fakeRequest()
                 .method(GET)
-                .uri("/api/allgreetings");
+                .uri("/v0/api/allgreetings");
 
         Result allResult = route(application, greetingsRequest);
 

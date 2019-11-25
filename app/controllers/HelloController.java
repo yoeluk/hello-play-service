@@ -1,6 +1,8 @@
 package controllers;
 
 import models.Greeting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -11,7 +13,10 @@ import java.util.List;
 
 public class HelloController extends Controller {
 
+    private Logger logger = LoggerFactory.getLogger(HelloController.class);
+
     public Result byName(String name) {
+        logger.debug("saying hello to " + name);
         Greeting hello = new Greeting("hello", name);
         return ok(Json.toJson(hello));
     }

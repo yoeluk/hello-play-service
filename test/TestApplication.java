@@ -1,6 +1,8 @@
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Module;
+import db.TestGreetingDB;
+import db.TestUserDB;
 import org.junit.After;
 import org.junit.Before;
 import play.Application;
@@ -9,10 +11,13 @@ import play.Environment;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.inject.guice.GuiceApplicationLoader;
 import play.test.Helpers;
+import store.GreetingStore;
+import store.UserStore;
 
 import javax.inject.Inject;
 
 public class TestApplication {
+
     @Inject
     Application application;
 
@@ -23,6 +28,8 @@ public class TestApplication {
                     @Override
                     public void configure() {
                         // Install custom test binding here
+                        bind(UserStore.class).to(TestUserDB.class);
+                        bind(GreetingStore.class).to(TestGreetingDB.class);
                     }
                 };
 

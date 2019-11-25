@@ -1,12 +1,4 @@
 
-GET /                     controllers.HelloController.anonymous()
+-> /v0                     legacy.Routes
 
-GET /from/:name           controllers.HelloController.byName(name)
-
-GET /from                 controllers.HelloController.byName(name: String ?= null)
-
-GET /:name                controllers.HelloController.helloView(request: Request, name: String)
-
-GET /api/allgreetings         controllers.HelloController.allGreetings()
-
-POST /api/addgreeting         controllers.HelloController.addGreeting(request: Request)
+-> /v1/ug                  v1ug.Routes
