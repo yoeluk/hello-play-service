@@ -15,6 +15,7 @@ import store.GreetingStore;
 import store.UserStore;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 
 public class TestApplication {
 
@@ -28,8 +29,8 @@ public class TestApplication {
                     @Override
                     public void configure() {
                         // Install custom test binding here
-                        bind(UserStore.class).to(TestUserDB.class);
-                        bind(GreetingStore.class).to(TestGreetingDB.class);
+                        bind(UserStore.class).toInstance(TestUserDB.of(new HashMap<>()));
+                        bind(GreetingStore.class).toInstance(TestGreetingDB.of(new HashMap<>()));
                     }
                 };
 

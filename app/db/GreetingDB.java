@@ -3,13 +3,14 @@ package db;
 import models.Greeting;
 import store.GreetingStore;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 public class GreetingDB implements GreetingStore {
 
     @Override
-    public CompletionStage<Greeting> byGreeting(String greeting) {
+    public CompletionStage<Optional<Greeting>> forGreeting(String greeting) {
         return null;
     }
 
@@ -19,7 +20,7 @@ public class GreetingDB implements GreetingStore {
     }
 
     @Override
-    public CompletionStage<List<?>> all() {
+    public CompletionStage<Collection<Greeting>> all() {
         return null;
     }
 }

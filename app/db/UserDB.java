@@ -3,12 +3,13 @@ package db;
 import models.User;
 import store.UserStore;
 
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 public class UserDB implements UserStore {
 
     @Override
-    public CompletionStage<User> findById(long id) {
+    public CompletionStage<Optional<User>> findById(long id) {
         return null;
     }
 
