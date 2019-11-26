@@ -19,7 +19,7 @@ import java.util.concurrent.CompletionStage;
         access = AccessLevel.PRIVATE,
         onConstructor = @__({ @Inject })
 )
-public class UserService {
+public class UserGreetingService {
     UserStore userStore;
     GreetingStore greetingStore;
 

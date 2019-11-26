@@ -8,6 +8,6 @@ import java.util.concurrent.CompletionStage;
 
 public interface GreetingStore {
     CompletionStage<Optional<Greeting>> forGreeting(String greeting);
-    CompletionStage<Greeting> upsertUser(Greeting greeting);
+    CompletionStage<Greeting> upsertGreeting(Greeting greeting);
     CompletionStage<Collection<Greeting>> all();
 }

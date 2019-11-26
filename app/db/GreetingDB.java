@@ -1,13 +1,28 @@
 package db;
 
+import akka.actor.ActorSystem;
 import models.Greeting;
+import scala.concurrent.ExecutionContextExecutor;
 import store.GreetingStore;
 
+import javax.inject.Inject;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class GreetingDB implements GreetingStore {
+
+    private HashMap<String, Greeting> db;
+
+    private ExecutionContextExecutor exc;
+
+    @Inject
+    GreetingDB(ActorSystem actorSystem, HashMap<String, Greeting> db) {
+        this.exc = actorSystem.dispatchers().lookup("service.greeting-dispatcher");
+        this.db = db;
+    }
 
     @Override
     public CompletionStage<Optional<Greeting>> forGreeting(String greeting) {
@@ -15,12 +30,12 @@ public class GreetingDB implements GreetingStore {
     }
 
     @Override
-    public CompletionStage<Greeting> upsertUser(Greeting greeting) {
+    public CompletionStage<Greeting> upsertGreeting(Greeting greeting) {
         return null;
     }
 
     @Override
     public CompletionStage<Collection<Greeting>> all() {
-        return null;
+        return CompletableFuture.supplyAsync(db::values, exc);
     }
 }

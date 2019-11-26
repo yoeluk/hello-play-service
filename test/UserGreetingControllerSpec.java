@@ -51,7 +51,6 @@ public class UserGreetingControllerSpec extends TestApplication {
         Result result = route(application, request);
 
         assertEquals(OK, result.status());
-
     }
 
     @Test
@@ -64,6 +63,5 @@ public class UserGreetingControllerSpec extends TestApplication {
         Result result = route(application, request);
 
         assertEquals(OK, result.status());
-
     }
 }

@@ -23,7 +23,7 @@ public class TestGreetingDB implements GreetingStore {
     }
 
     @Override
-    public CompletionStage<Greeting> upsertUser(Greeting greeting) {
+    public CompletionStage<Greeting> upsertGreeting(Greeting greeting) {
         return CompletableFuture.completedFuture(db.put(greeting.greeting, greeting));
     }
 
