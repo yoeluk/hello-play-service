@@ -44,12 +44,15 @@ public class UserGreetingAction extends play.mvc.Action.Simple {
             logger.trace("call: request = " + request);
         }
 
-        requestsMeter.mark();
+        requestsMeter.mark(); // count the request
         if (request.accepts("application/json")) {
+            // start the timer
             final Timer.Context time = responsesTimer.time();
             return futures.timeout(doCall(request), 1L, TimeUnit.SECONDS)
                     .exceptionally(e -> (status(GATEWAY_TIMEOUT, "{\"errorMessage\":\"persistence timeout\"}")))
-                    .whenComplete((r, e) -> time.close());
+                    .whenComplete((r, e) ->
+                            // stop the timer measuring the time it took
+                            time.close());
         } else {
             return completedFuture(
                     status(NOT_ACCEPTABLE, "{\"errorMessage\":\"We only accept application/json\"}")
@@ -58,22 +61,33 @@ public class UserGreetingAction extends play.mvc.Action.Simple {
     }
 
     private CompletionStage<Result> doCall(Http.Request request) {
-        return delegate.call(request).handleAsync((result, e) -> {
+
+        return  // propagate the request to the next action
+                delegate.call(request)
+                // handle the returned result from the action chain propagation
+                .handleAsync((result, e) -> {
             if (e != null) {
                 if (e instanceof CompletionException) {
                     Throwable completionException = e.getCause();
+                    // Failsafe isn't implemented in this POC
                     if (completionException instanceof FailsafeException) {
+                        // this circuit breaker behaviour isn't implemented
+                        // this is shown here as a possible behaviour that can be added
+                        // by intercepting and composing actions
                         logger.error("Circuit breaker is open!", completionException);
                         return status(SERVICE_UNAVAILABLE, "Service has timed out");
                     } else {
+                        // dummy behaviour
                         logger.error("Direct exception " + e.getMessage(), e);
                         return internalServerError();
                     }
                 } else {
+                    // dummy behaviour
                     logger.error("Unknown exception " + e.getMessage(), e);
                     return internalServerError();
                 }
             } else {
+                // successful result
                 return result;
             }
         }, ec.current());
