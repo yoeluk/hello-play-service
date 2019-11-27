@@ -1,11 +1,13 @@
 package controllers;
 
+import actions.UserGreetingAction;
 import models.User;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.With;
 import services.UserGreetingService;
 
 import javax.inject.Inject;
@@ -13,6 +15,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+@With(UserGreetingAction.class)
 public class UserGreetingController extends Controller {
 
     @Inject
