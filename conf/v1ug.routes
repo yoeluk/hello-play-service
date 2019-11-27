@@ -1,8 +1,0 @@
-
-POST /adduser                  controllers.UserGreetingController.addUser(request: Request)
-
-GET /getuser                   controllers.UserGreetingController.getUser(id: java.util.Optional[java.lang.Long])
-
-GET /allgreetings              controllers.UserGreetingController.allGreetings()
-
-GET /usergreetings/:id         controllers.UserGreetingController.userGreetings(id: Long)

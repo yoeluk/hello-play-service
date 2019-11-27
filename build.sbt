@@ -1,6 +1,8 @@
+import com.typesafe.sbt.packager.docker.{Cmd, ExecCmd}
+
 name := "hello-play-service"
 
-version := "0.1"
+version := "0.3"
 
 scalaVersion := "2.13.1"
 
@@ -17,3 +19,14 @@ lazy val `hello-play-service` = (project in file("."))
       "net.jodah" % "failsafe" % "1.0.5",
     )
   )
+
+daemonUser in Docker := "root"
+dockerBaseImage := "openjdk:8-jre-alpine"
+dockerRepository := Some("yoeluk")
+dockerExposedPorts := Seq(9000)
+dockerCmd := Seq("-Dpidfile.path=/dev/null")
+dockerEntrypoint := Seq("bin/%s" format executableScriptName.value)
+dockerCommands := dockerCommands.value.flatMap {
+  case cmd@Cmd("FROM", _) => List(cmd, ExecCmd("RUN", "apk", "--update", "add", "bash"))
+  case other => List(other)
+}
