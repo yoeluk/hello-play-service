@@ -24,7 +24,7 @@ public class TestUserDAO implements UserStore {
     }
 
     @Override
-    public CompletionStage<User> upsertUser(User user) {
-        return CompletableFuture.supplyAsync(() -> db.put(user.id, user));
+    public CompletionStage<Optional<User>> upsertUser(User user) {
+        return CompletableFuture.supplyAsync(() -> Optional.ofNullable(db.put(user.id, user)));
     }
 }

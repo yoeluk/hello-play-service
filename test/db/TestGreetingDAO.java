@@ -24,8 +24,8 @@ public class TestGreetingDAO implements GreetingStore {
     }
 
     @Override
-    public CompletionStage<Greeting> upsertGreeting(Greeting greeting) {
-        return CompletableFuture.completedFuture(db.put(greeting.greeting, greeting));
+    public CompletionStage<Optional<Greeting>> upsertGreeting(Greeting greeting) {
+        return CompletableFuture.completedFuture(Optional.ofNullable(db.put(greeting.greeting, greeting)));
     }
 
     @Override
