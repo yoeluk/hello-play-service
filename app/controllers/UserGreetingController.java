@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
-@With(UserGreetingAction.class)
+//@With(UserGreetingAction.class)
 public class UserGreetingController extends Controller {
 
     @Inject
