@@ -37,8 +37,8 @@ public class GreetingDAO implements GreetingStore {
     }
 
     @Override
-    public CompletionStage<Greeting> upsertGreeting(Greeting greeting) {
-        return null;
+    public CompletionStage<Optional<Greeting>> upsertGreeting(Greeting greeting) {
+        return supplyAsync(() -> wrap(emName, em -> insert(em, greeting)), exc);
     }
 
     @Override
@@ -50,9 +50,14 @@ public class GreetingDAO implements GreetingStore {
         return jpaApi.withTransaction(emName, function);
     }
 
-    private Greeting insert(EntityManager em, Greeting greeting) {
-        em.persist(greeting);
-        return greeting;
+    private Optional<Greeting> insert(EntityManager em, Greeting greeting) {
+        try {
+            em.persist(greeting);
+            return Optional.of(greeting);
+        } catch (Exception e) {
+            // log the e or better
+            return Optional.empty();
+        }
     }
 
     private Stream<Greeting> list(EntityManager em) {

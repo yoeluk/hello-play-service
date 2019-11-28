@@ -1,6 +1,7 @@
 package controllers;
 
 import actions.UserGreetingAction;
+import models.Greeting;
 import models.User;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
@@ -52,6 +53,12 @@ public class UserGreetingController extends Controller {
                     hec.current()
             );
         }
+    }
+
+    public CompletionStage<Result> addGreeting(Http.Request request) {
+        Greeting greeting = Json.fromJson(request.body().asJson(), Greeting.class);
+        return userGreetingService.addGreeting(greeting)
+                .thenApplyAsync(greeting1 -> ok(Json.toJson(greeting)), hec.current());
     }
 
     public CompletionStage<Result> allGreetings() {

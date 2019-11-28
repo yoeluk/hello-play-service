@@ -41,12 +41,16 @@ public class UserGreetingService {
                 });
     }
 
-    public CompletionStage<User> addUser(User user) {
+    public CompletionStage<Optional<User>> addUser(User user) {
         return userStore.upsertUser(user);
     }
 
     public CompletionStage<Optional<User>> userForId(long id) {
         return userStore.findById(id);
+    }
+
+    public CompletionStage<Optional<Greeting>> addGreeting(Greeting greeting) {
+        return greetingStore.upsertGreeting(greeting);
     }
 
     public CompletionStage<Stream<Greeting>> allGreetings() {

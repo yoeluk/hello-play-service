@@ -1,5 +1,7 @@
 POST /v1/ug/adduser                  controllers.UserGreetingController.addUser(request: Request)
 
+POST /v1/ug/addgreeting              controllers.UserGreetingController.addGreeting(request: Request)
+
 GET /v1/ug/getuser                   controllers.UserGreetingController.getUser(id: java.util.Optional[java.lang.Long])
 
 GET /v1/ug/allgreetings              controllers.UserGreetingController.allGreetings()

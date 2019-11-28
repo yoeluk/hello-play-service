@@ -9,6 +9,6 @@ import java.util.stream.Stream;
 
 public interface GreetingStore {
     CompletionStage<Optional<Greeting>> forGreeting(String greeting);
-    CompletionStage<Greeting> upsertGreeting(Greeting greeting);
+    CompletionStage<Optional<Greeting>> upsertGreeting(Greeting greeting);
     CompletionStage<Stream<Greeting>> all();
 }
