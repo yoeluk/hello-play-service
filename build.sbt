@@ -37,7 +37,7 @@ dockerCommands := dockerCommands.value.flatMap {
   case other => List(other)
 }
 
-//ThisBuild / javacOptions ++= List("-Xlint:unchecked", "-Xlint:deprecation", "-Werror")
+ThisBuild / javacOptions ++= List("-Xlint:unchecked", "-Xlint:deprecation", "-Werror")
 
 Test / testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-v")
 

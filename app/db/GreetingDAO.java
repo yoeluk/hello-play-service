@@ -20,7 +20,7 @@ public class GreetingDAO implements GreetingStore {
 
     private final JPAApi jpaApi;
 
-    private final String emName;
+    private final String emName = "greeting";
 
     private ExecutionContextExecutor exc;
 
@@ -28,7 +28,6 @@ public class GreetingDAO implements GreetingStore {
     GreetingDAO(ActorSystem actorSystem, JPAApi jpaApi) {
         this.exc = actorSystem.dispatchers().lookup("hello-play-service.database-dispatcher");
         this.jpaApi = jpaApi;
-        this.emName = "greeting";
     }
 
     @Override

@@ -1,7 +1,6 @@
 package db;
 
 import akka.actor.ActorSystem;
-import models.Greeting;
 import models.User;
 import play.db.jpa.JPAApi;
 import scala.concurrent.ExecutionContextExecutor;
@@ -19,7 +18,7 @@ public class UserDAO implements UserStore {
 
     private final JPAApi jpaApi;
 
-    private final String emName;
+    private final String emName = "user";
 
     private ExecutionContextExecutor exc;
 
@@ -27,7 +26,6 @@ public class UserDAO implements UserStore {
     UserDAO(ActorSystem actorSystem, JPAApi jpaApi) {
         this.exc = actorSystem.dispatchers().lookup("hello-play-service.database-dispatcher");
         this.jpaApi = jpaApi;
-        this.emName = "user";
     }
 
     @Override
