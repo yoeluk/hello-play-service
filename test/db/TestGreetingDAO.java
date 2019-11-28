@@ -7,9 +7,10 @@ import store.GreetingStore;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Stream;
 
 @Value(staticConstructor = "of")
-public class TestGreetingDB implements GreetingStore {
+public class TestGreetingDAO implements GreetingStore {
 
     private HashMap<String, Greeting> db;
 
@@ -28,7 +29,7 @@ public class TestGreetingDB implements GreetingStore {
     }
 
     @Override
-    public CompletionStage<Collection<Greeting>> all() {
-        return CompletableFuture.completedFuture(db.values());
+    public CompletionStage<Stream<Greeting>> all() {
+        return CompletableFuture.completedFuture(db.values().stream());
     }
 }

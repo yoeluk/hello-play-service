@@ -14,24 +14,26 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @AllArgsConstructor(
         access = AccessLevel.PRIVATE,
         onConstructor = @__({ @Inject })
 )
 public class UserGreetingService {
-    UserStore userStore;
     GreetingStore greetingStore;
+    UserStore userStore;
 
     public CompletionStage<Optional<UserGreeting>> userGreetingForId(long id) {
         CompletionStage<Optional<User>> futureUser = userForId(id);
-        CompletionStage<Collection<Greeting>> futureGreetings = greetingStore.all();
+        CompletionStage<Stream<Greeting>> futureGreetings = greetingStore.all();
         return futureUser
                 .thenCompose(maybeUser -> {
                     if (maybeUser.isPresent()) {
                         User user = maybeUser.get();
                         return futureGreetings.thenApply(allGreetings ->
-                                Optional.of(new UserGreeting(user, new ArrayList<>(allGreetings)))
+                                Optional.of(new UserGreeting(user, allGreetings.collect(Collectors.toList())))
                         );
                     } else {
                         return CompletableFuture.completedFuture(Optional.empty());
@@ -47,7 +49,7 @@ public class UserGreetingService {
         return userStore.findById(id);
     }
 
-    public CompletionStage<Collection<Greeting>> allGreetings() {
+    public CompletionStage<Stream<Greeting>> allGreetings() {
         return greetingStore.all();
     }
 }

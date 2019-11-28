@@ -1,41 +1,31 @@
 package models;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import javax.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
-@Value
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
-@AllArgsConstructor
+@Entity
+@Table(name = "greeting_table", schema = "public")
 public class Greeting {
-    public final String greeting;
-    public final String message;
 
-    /**
-     * legacy greeting store for HelloController
-     */
-    private static ConcurrentHashMap<String, Object> greetings;
+    @Id
+    @Column(name = "greeting", nullable = false)
+    public String greeting;
 
-    private static Object stub() {
-        return new Object();
+    @Column(name = "message", nullable = false)
+    public String message;
+
+    public String getGreeting() {
+        return greeting;
     }
 
-    public static void addGreeting(String greeting) {
-        if (greetings == null) {
-            greetings = new ConcurrentHashMap<>();
-        }
-        greetings.put(greeting, stub());
+    public void setGreeting(String greeting) {
+        this.greeting = greeting;
     }
 
-    public static List<String> allGreetings() {
-        if (greetings == null) {
-            greetings = new ConcurrentHashMap<>();
-        }
-        return new ArrayList<>(greetings.keySet());
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

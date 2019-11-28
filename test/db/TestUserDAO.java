@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 @Value(staticConstructor = "of")
-public class TestUserDB implements UserStore {
+public class TestUserDAO implements UserStore {
 
     private HashMap<Long, User> db;
 

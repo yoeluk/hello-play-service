@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 @With(UserGreetingAction.class)
 public class UserGreetingController extends Controller {
@@ -55,6 +56,9 @@ public class UserGreetingController extends Controller {
 
     public CompletionStage<Result> allGreetings() {
         return userGreetingService.allGreetings()
-                .thenApplyAsync(greetings -> ok(Json.toJson(greetings)), hec.current());
+                .thenApplyAsync(greetings -> ok(
+                        Json.toJson(greetings.collect(Collectors.toList())))
+                        , hec.current()
+                );
     }
 }

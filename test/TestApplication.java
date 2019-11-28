@@ -1,8 +1,8 @@
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Module;
-import db.TestGreetingDB;
-import db.TestUserDB;
+import db.TestGreetingDAO;
+import db.TestUserDAO;
 import org.junit.After;
 import org.junit.Before;
 import play.Application;
@@ -29,8 +29,8 @@ public class TestApplication {
                     @Override
                     public void configure() {
                         // Install custom test binding here
-                        bind(UserStore.class).toInstance(TestUserDB.of(new HashMap<>()));
-                        bind(GreetingStore.class).toInstance(TestGreetingDB.of(new HashMap<>()));
+                        bind(UserStore.class).toInstance(TestUserDAO.of(new HashMap<>()));
+                        bind(GreetingStore.class).toInstance(TestGreetingDAO.of(new HashMap<>()));
                     }
                 };
 

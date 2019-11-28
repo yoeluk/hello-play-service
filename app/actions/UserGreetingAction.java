@@ -20,7 +20,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static play.mvc.Http.Status.*;
 
 public class UserGreetingAction extends play.mvc.Action.Simple {
-    private final Logger logger = LoggerFactory.getLogger("application.ApiAction");
+    private final Logger logger = LoggerFactory.getLogger("application.UserGreetingAction");
 
     private final Meter requestsMeter;
     private final Timer responsesTimer;

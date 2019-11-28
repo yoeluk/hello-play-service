@@ -5,17 +5,3 @@ GET /v1/ug/getuser                   controllers.UserGreetingController.getUser(
 GET /v1/ug/allgreetings              controllers.UserGreetingController.allGreetings()
 
 GET /v1/ug/usergreetings/:id         controllers.UserGreetingController.userGreetings(id: Long)
-
-# legacy routes
-
-GET /v0                              controllers.HelloController.anonymous()
-
-GET /v0/from/:name                   controllers.HelloController.byName(name)
-
-GET /v0/from                         controllers.HelloController.byName(name: String ?= null)
-
-GET /v0/:name                        controllers.HelloController.helloView(request: Request, name: String)
-
-GET /v0/api/allgreetings             controllers.HelloController.allGreetings()
-
-POST /v0/api/addgreeting             controllers.HelloController.addGreeting(request: Request)
