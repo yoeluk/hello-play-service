@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
-//@With(UserGreetingAction.class)
+@With(UserGreetingAction.class)
 public class UserGreetingController extends Controller {
 
     @Inject
@@ -30,7 +30,15 @@ public class UserGreetingController extends Controller {
         User user = Json.fromJson(request.body().asJson(), User.class);
         return userGreetingService.addUser(user)
                 .thenApplyAsync(
-                        persistedUser -> ok(Json.parse("{\"msg\":\"user " + user.fullName + " was persisted\"}")),
+                        persistedUser -> {
+                            if (persistedUser.isPresent()) {
+                                return ok(Json.parse("{\"msg\":\"user " + persistedUser.get().fullName + " was persisted\"}"));
+
+                            } else {
+                                return internalServerError();
+                            }
+
+                        },
                         hec.current()
                 );
     }

@@ -2,6 +2,9 @@ package db;
 
 import akka.actor.ActorSystem;
 import models.Greeting;
+import models.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import play.db.jpa.JPAApi;
 import scala.concurrent.ExecutionContextExecutor;
 import store.GreetingStore;
@@ -24,6 +27,8 @@ public class GreetingDAO implements GreetingStore {
 
     private ExecutionContextExecutor exc;
 
+    Logger log = LoggerFactory.getLogger(User.class);
+
     @Inject
     GreetingDAO(ActorSystem actorSystem, JPAApi jpaApi) {
         this.exc = actorSystem.dispatchers().lookup("hello-play-service.database-dispatcher");
@@ -37,15 +42,15 @@ public class GreetingDAO implements GreetingStore {
 
     @Override
     public CompletionStage<Optional<Greeting>> upsertGreeting(Greeting greeting) {
-        return supplyAsync(() -> wrap(emName, em -> insert(em, greeting)), exc);
+        return supplyAsync(() -> wrap(em -> insert(em, greeting)), exc);
     }
 
     @Override
     public CompletionStage<Stream<Greeting>> all() {
-        return supplyAsync(() -> wrap(emName, this::list), exc);
+        return supplyAsync(() -> wrap(this::list), exc);
     }
 
-    private <T> T wrap(String emName, Function<EntityManager, T> function) {
+    private <T> T wrap(Function<EntityManager, T> function) {
         return jpaApi.withTransaction(emName, function);
     }
 
@@ -54,7 +59,7 @@ public class GreetingDAO implements GreetingStore {
             em.persist(greeting);
             return Optional.of(greeting);
         } catch (Exception e) {
-            // log the e or better
+            log.error(e.getMessage());
             return Optional.empty();
         }
     }
