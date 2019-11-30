@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionStage;
 
-public class HttpRetryableClient {
+public class HttpRetryableClient implements RetryableClient {
 
     private Logger log = LoggerFactory.getLogger(HttpRetryableClient.class);
 

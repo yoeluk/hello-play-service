@@ -1,7 +1,7 @@
 package services;
 
 import akka.actor.ActorSystem;
-import http.HttpRetryableClient;
+import http.RetryableClient;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSRequest;
 import play.libs.ws.WSResponse;
@@ -16,7 +16,7 @@ public class GCloudTranslation implements Translation {
     private ActorSystem actorSystem;
 
     @Inject
-    HttpRetryableClient httpRetryableClient;
+    RetryableClient rc;
 
     @Inject
     WSClient ws;
@@ -34,6 +34,6 @@ public class GCloudTranslation implements Translation {
                 .setBody("{ 'q': '" + text + "', 'source': '" + from + "', 'target': '" + to + "', 'format': 'text'}")
                 .setMethod("POST");
 
-        return httpRetryableClient.withRetries(request::execute);
+        return rc.withRetries(request::execute);
     }
 }

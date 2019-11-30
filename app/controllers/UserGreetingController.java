@@ -38,8 +38,7 @@ public class UserGreetingController extends Controller {
                                 return internalServerError();
                             }
 
-                        },
-                        hec.current()
+                        }, hec.current()
                 );
     }
 
