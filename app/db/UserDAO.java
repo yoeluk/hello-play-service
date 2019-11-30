@@ -24,7 +24,7 @@ public class UserDAO implements UserStore {
 
     private ExecutionContextExecutor exc;
 
-    Logger log = LoggerFactory.getLogger(User.class);
+    private Logger log = LoggerFactory.getLogger(User.class);
 
     @Inject
     UserDAO(ActorSystem actorSystem, JPAApi jpaApi) {

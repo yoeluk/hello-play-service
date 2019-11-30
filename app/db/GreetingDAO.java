@@ -27,7 +27,7 @@ public class GreetingDAO implements GreetingStore {
 
     private ExecutionContextExecutor exc;
 
-    Logger log = LoggerFactory.getLogger(User.class);
+    private Logger log = LoggerFactory.getLogger(User.class);
 
     @Inject
     GreetingDAO(ActorSystem actorSystem, JPAApi jpaApi) {
