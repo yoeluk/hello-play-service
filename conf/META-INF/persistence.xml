@@ -12,22 +12,22 @@
         </properties>
     </persistence-unit>
 
-<!--    <persistence-unit name="userPersistenceUnit" transaction-type="RESOURCE_LOCAL">-->
-<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
-<!--        <non-jta-data-source>UserDS</non-jta-data-source>-->
-<!--        <properties>-->
-<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>-->
-<!--            <property name="hibernate.hbm2ddl.auto" value="update"/>-->
-<!--        </properties>-->
-<!--    </persistence-unit>-->
+    <persistence-unit name="userPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <non-jta-data-source>UserDS</non-jta-data-source>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
 
-<!--    <persistence-unit name="greetingPersistenceUnit" transaction-type="RESOURCE_LOCAL">-->
-<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
-<!--        <non-jta-data-source>GreetingDS</non-jta-data-source>-->
-<!--        <properties>-->
-<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>-->
-<!--            <property name="hibernate.hbm2ddl.auto" value="update"/>-->
-<!--        </properties>-->
-<!--    </persistence-unit>-->
+    <persistence-unit name="greetingPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <non-jta-data-source>GreetingDS</non-jta-data-source>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
 
 </persistence>

@@ -27,7 +27,6 @@ public class HttpRetryableClient implements RetryableClient {
     }
 
     public <R> CompletionStage<R> withRetries(Callable<CompletionStage<R>> request) {
-        log.info("processing request");
         return cb.callWithCircuitBreakerCS(request);
     }
 
