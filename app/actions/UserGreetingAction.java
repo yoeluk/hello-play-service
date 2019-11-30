@@ -66,30 +66,30 @@ public class UserGreetingAction extends play.mvc.Action.Simple {
                 delegate.call(request)
                 // handle the returned result from the action chain propagation
                 .handleAsync((result, e) -> {
-            if (e != null) {
-                if (e instanceof CompletionException) {
-                    Throwable completionException = e.getCause();
-                    // Failsafe isn't implemented in this POC
-                    if (completionException instanceof FailsafeException) {
-                        // this circuit breaker behaviour isn't implemented
-                        // this is shown here as a possible behaviour that can be added
-                        // by intercepting and composing actions
-                        logger.error("Circuit breaker is open!", completionException);
-                        return status(SERVICE_UNAVAILABLE, "Service has timed out");
+                    if (e != null) {
+                        if (e instanceof CompletionException) {
+                            Throwable completionException = e.getCause();
+                            // Failsafe isn't implemented in this POC
+                            if (completionException instanceof FailsafeException) {
+                                // this circuit breaker behaviour isn't implemented
+                                // this is shown here as a possible behaviour that can be added
+                                // by intercepting and composing actions
+                                logger.error("Circuit breaker is open!", completionException);
+                                return status(SERVICE_UNAVAILABLE, "Service has timed out");
+                            } else {
+                                // dummy behaviour
+                                logger.error("Direct exception " + e.getMessage(), e);
+                                return internalServerError();
+                            }
+                        } else {
+                            // dummy behaviour
+                            logger.error("Unknown exception " + e.getMessage(), e);
+                            return internalServerError();
+                        }
                     } else {
-                        // dummy behaviour
-                        logger.error("Direct exception " + e.getMessage(), e);
-                        return internalServerError();
+                        // successful result
+                        return result;
                     }
-                } else {
-                    // dummy behaviour
-                    logger.error("Unknown exception " + e.getMessage(), e);
-                    return internalServerError();
-                }
-            } else {
-                // successful result
-                return result;
-            }
         }, ec.current());
     }
 }
