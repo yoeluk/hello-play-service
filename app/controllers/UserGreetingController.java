@@ -32,7 +32,7 @@ public class UserGreetingController extends Controller {
                 .thenApplyAsync(
                         persistedUser -> {
                             if (persistedUser.isPresent()) {
-                                return ok(Json.parse("{\"msg\":\"user " + persistedUser.get().fullName + " was persisted\"}"));
+                                return ok(Json.toJson(persistedUser.get()));
                             } else {
                                 return internalServerError();
                             }
@@ -55,7 +55,8 @@ public class UserGreetingController extends Controller {
                             return ok(Json.toJson(foundUser.get()));
                         } else {
                             return notFound("a user with id " + id + " was not found");
-                        }}, hec.current());
+                        }
+                    }, hec.current());
         } else {
             return CompletableFuture.supplyAsync(
                     () -> badRequest("a userId is required and none were found in the request"),

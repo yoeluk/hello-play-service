@@ -1,4 +1,4 @@
-package filter;
+package filters;
 
 import java.util.concurrent.Executor;
 import javax.inject.Inject;
