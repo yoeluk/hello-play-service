@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Greeting {
 
     @Id
-    @Column(name = "greeting", nullable = false)
+    @Column(name = "greeting", nullable = false, unique = true)
     public String greeting;
 
     @Column(name = "message", nullable = false)

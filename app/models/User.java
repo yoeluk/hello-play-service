@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
     public Long id;
 
@@ -29,7 +30,7 @@ public class User {
         this.fullName = fullName;
     }
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     public String email;
 
     public String getEmail() {
