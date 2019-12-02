@@ -1,3 +1,5 @@
+import cache.PlayServerCache;
+import cache.ServerCache;
 import com.google.inject.AbstractModule;
 import db.GreetingDAO;
 import db.UserDAO;
@@ -15,5 +17,6 @@ public class Module extends AbstractModule {
         bind(GreetingStore.class).to(GreetingDAO.class);
         bind(RetryableClient.class).to(HttpRetryableClient.class);
         bind(Translation.class).to(GCloudTranslation.class);
+        bind(ServerCache.class).to(PlayServerCache.class);
     }
 }

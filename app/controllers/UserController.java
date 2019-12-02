@@ -81,8 +81,8 @@ public class UserController extends Controller {
     }
 
     @With(Authenticated.class)
-    public Result landingPage(Http.Request request) {
-        return ok(views.html.loginLandingPage.render(
+    public Result landingPage(Http.Request request) { // the page is protected; the user need to be authenticated
+        return ok(views.html.landingPage.render(
                 routes.UserController.logout(), request.flash()));
     }
 

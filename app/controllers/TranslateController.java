@@ -1,10 +1,10 @@
 package controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import cache.ServerCache;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Results;
 import translate.Translation;
 
 import javax.inject.Inject;
@@ -12,22 +12,30 @@ import java.util.concurrent.CompletionStage;
 
 public class TranslateController extends Controller {
 
-    private Logger log = LoggerFactory.getLogger(TranslateController.class);
-
     @Inject
     HttpExecutionContext exc;
 
     @Inject
     Translation ts;
 
+    @Inject
+    ServerCache serverCache;
+
     public CompletionStage<Result> translateMe(String text, String from, String to) {
+        String string = text + "&&" + from + "&&" + to;
+        String key = String.valueOf(string.hashCode());
+        return serverCache.getOrUpdateString(
+                key, () -> translate(text, from, to), 600)
+                .thenApplyAsync(Results::ok, exc.current());
+    }
+
+    private CompletionStage<String> translate(String text, String from, String to) {
         return ts.translateMe(text, from, to)
                 .thenApplyAsync(response -> {
                     if (response.getStatus() == 200) {
-                        return ok(response.getBody());
+                        return response.getBody();
                     } else {
-                        log.error(response.getStatusText());
-                        return internalServerError(response.getStatusText());
+                        throw new RuntimeException(response.getStatusText());
                     }
                 }, exc.current());
     }
