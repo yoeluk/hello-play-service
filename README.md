@@ -77,9 +77,12 @@ CREATE UNIQUE INDEX greeting_table_greeting_uindex ON public.greeting_table USIN
 #### Add users
 
 ```bash
-> curl -d '{"fullName":"Mark Davis","email":"mark.davis@me.com"}' -H "Content-Type: application/json" localhost:9000
+> curl -d '{"username":"markdavis","fullName":"Mark Davis","email":"mark.davis@me.com"}' -H "Content-Type: application
+/json" localhost:9000
 /v1/ug/adduser
-> curl -d '{"fullName":"John Smith","email":"john.smith@me.com"}' -H "Content-Type: application/json" localhost:9000/v1
+> curl -d '{"username":"johnsmith","fullName":"John Smith","email":"john.smith@me.com"}' -H "Content-Type: application
+/json
+" localhost:9000/v1
 /ug/adduser
 ```
 
@@ -99,6 +102,7 @@ curl localhost:9000/v1/ug/usergreetings/6 | jq
   "user": {
     "id": 6,
     "fullName": "mark davis",
+    "username": "markdavis",
     "email": "mark.davis@me.com"
   },
   "greetings": [
