@@ -48,7 +48,7 @@ public class UserGreetingAction extends play.mvc.Action.Simple {
         if (request.accepts("application/json")) {
             // start the timer
             final Timer.Context time = responsesTimer.time();
-            return futures.timeout(doCall(request), 1L, TimeUnit.SECONDS)
+            return futures.timeout(doCall(request), 1L, TimeUnit.MINUTES)
                     .exceptionally(e -> (status(GATEWAY_TIMEOUT, "{\"errorMessage\":\"persistence timeout\"}")))
                     .whenComplete((r, e) ->
                             // stop the timer measuring the time it took

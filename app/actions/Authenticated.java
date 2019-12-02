@@ -2,6 +2,7 @@ package actions;
 
 import controllers.routes;
 import models.Constants;
+import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 
@@ -9,9 +10,12 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-public class Authenticated extends play.mvc.Action.Simple {
+public class Authenticated extends Action.Simple {
+
     public CompletionStage<Result> call(Http.Request request) {
+
         Optional<String> maybeUsername = request.session().getOptional(Constants.SESSION_USERID_KEY);
+
         if (maybeUsername.isPresent()) {
             return delegate.call(request);
         } else {
