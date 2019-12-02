@@ -1,0 +1,43 @@
+
+@(form: play.data.Form[models.LoginUser])(implicit request: Http.Request, mgs: play.i18n.Messages)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+    </head>
+
+    <body id="user-login">
+        <div id="content">
+
+            <div id="user-login-form">
+
+                <h1>User Login</h1>
+
+                @request.flash.data.map{ case (name, value) =>
+                <div>@name: @value</div>
+                }
+
+                @if(form.hasGlobalErrors) {
+                    <p class="error">
+                    @for(error <- form.globalErrors) {
+                        <p>@error.format(messages())</p>
+                    }
+                    </p>
+                }
+
+                @helper.form(action = routes.UserController.loginAttempt(), Symbol("id") -> "user-login-form") {
+
+                    @helper.CSRF.formField
+
+                    @helper.inputText(
+                        form("username"), Symbol("id") -> "username", Symbol("size") -> 40)
+
+                    @helper.inputPassword(
+                        form("password"), Symbol("id") -> "password", Symbol("size") -> 40)
+                    <button>Login</button>
+                }
+            </div>
+        </div>
+    </body>
+</html>

@@ -7,5 +7,6 @@ import java.util.concurrent.CompletionStage;
 
 public interface UserStore {
    CompletionStage<Optional<User>> findById(long id);
+   CompletionStage<Optional<User>> findByUsername(String username);
    CompletionStage<Optional<User>> upsertUser(User user);
 }

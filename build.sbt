@@ -9,7 +9,7 @@ scalaVersion := "2.13.1"
 val Lombok = "1.16.16"
 
 lazy val `hello-play-service` = (project in file("."))
-  .enablePlugins(PlayMinimalJava)
+  .enablePlugins(PlayJava)
   .settings(
     libraryDependencies ++= Seq(
       guice,
@@ -21,6 +21,7 @@ lazy val `hello-play-service` = (project in file("."))
       "org.projectlombok" % "lombok" % Lombok,
       "io.dropwizard.metrics" % "metrics-core" % "3.2.6",
       "net.jodah" % "failsafe" % "1.0.5",
+      "org.mindrot" % "jbcrypt" % "0.4"
     )
   )
 

@@ -1,5 +1,7 @@
 package models;
 
+import play.data.validation.Constraints;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
     public Long id;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @Constraints.Required
+    private Credentials credentials;
+
+    public Credentials getCredentials() {
+        return credentials;
+    }
+
+    public void setCredentials(Credentials credentials) {
+        this.credentials = credentials;
+    }
 
     public Long getId() {
         return id;
@@ -30,7 +44,20 @@ public class User {
         this.fullName = fullName;
     }
 
+    @Column(name = "username", nullable = false, unique = true)
+    @Constraints.Required
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Column(name = "email", nullable = false, unique = true)
+    @Constraints.Required
     public String email;
 
     public String getEmail() {

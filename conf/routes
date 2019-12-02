@@ -9,3 +9,16 @@ GET /v1/ug/allgreetings              controllers.UserGreetingController.allGreet
 GET /v1/ug/usergreetings/:id         controllers.UserGreetingController.userGreetings(id: Long)
 
 GET /translate                       controllers.TranslateController.translateMe(text, from, to)
+
+GET  /                               controllers.HomeController.index
+
+# Map static resources from the /public folder to the /assets URL path
+GET  /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
+
+# login
+GET  /user/login                     controllers.UserController.login(request: Request)
+POST /user/doLogin                   controllers.UserController.loginAttempt(request: Request)
+
+# authentiatd
+GET  /user/logout                    controllers.UserController.logout(request: Request)
+GET  /landingPage                    controllers.UserController.landingPage(request: Request)
