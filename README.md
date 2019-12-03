@@ -20,7 +20,7 @@
 > docker run -it -p 9000:9000 yoeluk/hello-play-service:0.3 -Dpidfile.path=/dev/null -Dplay.http.secret.key=ad31779d4ee49d5ad5162bf1429c32e2e9933f3b
 ```
 
-#### With local postgresql (needs a configuration)
+#### With local postgresql (needs a configuration change)
 
 ```bash
 > docker run -it -p 9000:9000 -p 5432:5432 -e BEARER_TOKEN=<GCloud Translate Api Toke> -e USER_DB_URL=docker.for.mac.host.internal -e GREETING_DB_URL=docker.for.mac.host.internal yoeluk/hello-play-service:0.3 -Dpidfile.path=/dev/null -Dplay.http.secret.key=ad31779d4ee49d5ad5162bf1429c32e2e9933f3b
@@ -39,13 +39,29 @@ You can change the configuration to persist to H2 (its dependency and persistent
 ). Issue the give sql to create your `user_table` in your postgresql instant.
 
 ```sql
-CREATE TABLE user_table (
+CREATE TABLE public.user_table (
 	id int8 NOT NULL,
 	email varchar(255) NOT NULL,
 	full_name varchar(255) NOT NULL,
-	CONSTRAINT user_table_pkey PRIMARY KEY (id)
+	username varchar(255) NOT NULL,
+	CONSTRAINT user_table_pk PRIMARY KEY (id)
 );
 CREATE UNIQUE INDEX user_table_email_uindex ON public.user_table USING btree (email);
+CREATE UNIQUE INDEX user_table_id_uindex ON public.user_table USING btree (id);
+CREATE UNIQUE INDEX user_table_username_uindex ON public.user_table USING btree (username);
+```
+
+#### Credentials table (Postgresql)
+
+The credentials table must be in the same db as the user table.
+
+```sql
+CREATE TABLE public.credentials_table (
+	user_id int8 NOT NULL,
+	encoded_password varchar(255) NOT NULL,
+	CONSTRAINT credentials_table_pk PRIMARY KEY (user_id)
+);
+CREATE UNIQUE INDEX credentials_table_id_uindex ON public.credentials_table USING btree (user_id);
 ```
 
 #### Greeting Table (Postgresql)
