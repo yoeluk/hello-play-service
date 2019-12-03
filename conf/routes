@@ -20,4 +20,6 @@ POST /user/doLogin                   controllers.UserController.loginAttempt(req
 GET  /user/logout                    controllers.UserController.logout()
 GET  /landingPage                    controllers.UserController.landingPage(request: Request)
 
+GET  /members/honey                  controllers.UserController.moreHoney(request: Request)
+
 GET  /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)

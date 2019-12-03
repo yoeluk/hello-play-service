@@ -1,8 +1,11 @@
 package actions;
 
+import models.Constants;
 import models.User;
 import org.mindrot.jbcrypt.BCrypt;
 import play.libs.concurrent.HttpExecutionContext;
+import play.libs.typedmap.TypedKey;
+import play.libs.typedmap.TypedMap;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -13,6 +16,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static play.shaded.oauth.org.apache.commons.codec.binary.Base64.decodeBase64;
@@ -29,19 +33,17 @@ public class Authorized extends Action.Simple {
         Optional<String> maybeAuthToken = request.getHeaders().get("Authorization");
         if (maybeAuthToken.isPresent()) {
             String authToken = maybeAuthToken.get();
-            Stream<String> parsed = Arrays.stream(authToken.split(" "))
-                    .skip(1).flatMap(encoded ->
-                            Arrays.stream(new String(decodeBase64(encoded.getBytes()))
-                                    .split(":")));
-            Optional<String> maybePassword = parsed.skip(1).findFirst();
-            Optional<String> maybeUsername = parsed.findFirst();
+            Supplier<Stream<String>> parsed = headerParser(authToken);
+            Optional<String> maybeUsername = parsed.get().findFirst();
+            Optional<String> maybePassword = parsed.get().skip(1).findFirst();
             if (maybePassword.isPresent() && maybeUsername.isPresent()) {
-                String password = maybePassword.get();
-                String username = maybeUsername.get();
+                String password = maybePassword.get().trim().replace("\n", "");
+                String username = maybeUsername.get().trim().replace("\n", "");
                 return isAuthorizedUser(username, password) // all valid user/password are authorized
                         .thenComposeAsync(isAuthorized -> {
                             if (isAuthorized) {
-                                return delegate.call(request);
+                                Http.Request forwardedRequest = request.addAttr(Constants.authUsername, username);
+                                return delegate.call(forwardedRequest);
                             } else {
                                 return CompletableFuture.completedFuture(
                                         unauthorized("You are not authorized to access the requested resource"));
@@ -65,5 +67,12 @@ public class Authorized extends Action.Simple {
                         return false;
                     }
                 });
+    }
+
+    private Supplier<Stream<String>> headerParser(String authToken) {
+        return () -> Arrays.stream(authToken.split(" "))
+                        .skip(1).flatMap(encoded ->
+                        Arrays.stream(new String(decodeBase64(encoded.getBytes()))
+                                .split(":")));
     }
 }

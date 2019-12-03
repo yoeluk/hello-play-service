@@ -14,8 +14,16 @@
 
 ### Docker run
 
+#### With h2
+
+```bash
+> docker run -it -p 9000:9000 yoeluk/hello-play-service:0.3 -Dpidfile.path=/dev/null -Dplay.http.secret.key=ad31779d4ee49d5ad5162bf1429c32e2e9933f3b
 ```
-> docker run -it -e BEARER_TOKEN=<GCloud Translate Api Toke> -p 9000:9000 yoeluk/hello-play-service:0.3 -Dpidfile.path=/dev/null -Dplay.http.secret.key=ad31779d4ee49d5ad5162bf1429c32e2e9933f3b
+
+#### With local postgresql (needs a configuration)
+
+```bash
+> docker run -it -p 9000:9000 -p 5432:5432 -e BEARER_TOKEN=<GCloud Translate Api Toke> -e USER_DB_URL=docker.for.mac.host.internal -e GREETING_DB_URL=docker.for.mac.host.internal yoeluk/hello-play-service:0.3 -Dpidfile.path=/dev/null -Dplay.http.secret.key=ad31779d4ee49d5ad5162bf1429c32e2e9933f3b
 ```
 
 ### Persistence
@@ -72,8 +80,8 @@ CREATE UNIQUE INDEX greeting_table_greeting_uindex ON public.greeting_table USIN
 #### Add users
 
 ```bash
-> curl -d '{"username":"markdavis","fullName":"Mark Davis","email":"mark.davis@me.com"}' -H "Content-Type: application/json" localhost:9000/v1/ug/adduser
-> curl -d '{"username":"johnsmith","fullName":"John Smith","email":"john.smith@me.com"}' -H "Content-Type: application/json" localhost:9000/v1/ug/adduser
+> curl -d '{"username":"markdavis","fullName":"Mark Davis","email":"mark.davis@me.com","credentials":{"password":"password"}}' -H "Content-Type: application/json" localhost:9000/v1/ug/adduser
+> curl -d '{"username":"johnsmith","fullName":"John Smith","email":"john.smith@me.com","credentials":{"password":"otherpassword"}}' -H "Content-Type: application/json" localhost:9000/v1/ug/adduser
 ```
 
 #### Get user
@@ -111,13 +119,22 @@ curl localhost:9000/v1/ug/usergreetings/6 | jq
 ### Authentication
 
 The custom action `Authenticated` demonstrates a simple login with Play. To try it out create a user with the
- `addUser` api and navigate to `localhost:9000/landingPage`. This page can only be access by logged users so you will
+ `addUser` api and navigate to [landingPage](localhost:9000/landingPage). This page can only be access by logged
+  users so you will
   be automatically redirected to the sign page.
   
 ### Authorization
 
 Authentication and authorization are usually implemented by leveraging a third party library like are [siloutte](https://www.silhouette.rocks/v4.0) 
-or [pac4j](https://github.com/pac4j/play-pac4j). However, we can also minimally inspect a basic `Authorization
-` header. The `Authorized` custom action is an example of how we could do this.
+or [pac4j](https://github.com/pac4j/play-pac4j). However, we can also minimally inspect a basic `Authorization` header. The `Authorized` custom action is an example of how we could do this.
 
-### 
+```bash
+> curl -H "Authorization: Basic bWFya2RhdmlzOnBhc3N3b3JkCg==" localhost:9000/members/honey
+```
+```json
+{
+  "member": "markdavis",
+  "pot": "honey",
+  "weight": "50g"
+}
+```

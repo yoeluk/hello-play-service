@@ -1,13 +1,16 @@
 package controllers;
 
 import actions.Authenticated;
+import actions.Authorized;
 import models.Constants;
 import models.LoginUser;
 import models.User;
 import org.mindrot.jbcrypt.BCrypt;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
+import play.libs.typedmap.TypedKey;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -19,6 +22,7 @@ import store.UserStore;
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -90,5 +94,17 @@ public class UserController extends Controller {
         return redirect(routes.UserController.login())
                 .flashing("info", "You are logged out.")
                 .withNewSession();
+    }
+
+    @With(Authorized.class)
+    public Result moreHoney(Http.Request request) {
+        Optional<String> maybeUsername = request.attrs().getOptional(Constants.authUsername);
+        if (maybeUsername.isPresent()) {
+            String username = maybeUsername.get();
+            return ok(Json.parse("{\"member\":\"" + username + "\",\"pot\":\"honey\",\"weight\":\"50g\"}"));
+        } else {
+            return unauthorized();
+        }
+
     }
 }
