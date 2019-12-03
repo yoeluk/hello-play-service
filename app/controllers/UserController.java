@@ -86,7 +86,7 @@ public class UserController extends Controller {
                 routes.UserController.logout(), request.flash()));
     }
 
-    public Result logout(Http.Request request) {
+    public Result logout() {
         return redirect(routes.UserController.login())
                 .flashing("info", "You are logged out.")
                 .withNewSession();

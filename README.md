@@ -107,3 +107,17 @@ curl localhost:9000/v1/ug/usergreetings/6 | jq
   ]
 }
 ```
+
+### Authentication
+
+The custom action `Authenticated` demonstrates a simple login with Play. To try it out create a user with the
+ `addUser` api and navigate to `localhost:9000/landingPage`. This page can only be access by logged users so you will
+  be automatically redirected to the sign page.
+  
+### Authorization
+
+Authentication and authorization are usually implemented by leveraging a third party library like are [siloutte](https://www.silhouette.rocks/v4.0) 
+or [pac4j](https://github.com/pac4j/play-pac4j). However, we can also minimally inspect a basic `Authorization
+` header. The `Authorized` custom action is an example of how we could do this.
+
+### 
