@@ -38,7 +38,7 @@ public class Authorized extends Action.Simple {
             if (maybePassword.isPresent() && maybeUsername.isPresent()) {
                 String password = maybePassword.get();
                 String username = maybeUsername.get();
-                return isAuthorizedUser(username, password)
+                return isAuthorizedUser(username, password) // all valid user/password are authorized
                         .thenComposeAsync(isAuthorized -> {
                             if (isAuthorized) {
                                 return delegate.call(request);

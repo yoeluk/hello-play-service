@@ -58,14 +58,9 @@ CREATE UNIQUE INDEX greeting_table_greeting_uindex ON public.greeting_table USIN
 
 #### Add greetinga
 ```bash
-> curl -d '{"greeting":"good morning","message":"you look great today!"}' -H "Content-Type: application/json" localhost
-:9000/v1
-/ug/addgreeting
-> curl -d '{"greeting":"hello","message":"nice to see you again!"}' -H "Content-Type: application/json" localhost:9000
-/v1/ug/addgreeting
-> curl -d '{"greeting":"good evening","message":"what a pleasant surprise!"}' -H "Content-Type: application/json
-" localhost
-:9000/v1/ug/addgreeting
+> curl -d '{"greeting":"good morning","message":"you look great today!"}' -H "Content-Type: application/json" localhost:9000/v1/ug/addgreeting
+> curl -d '{"greeting":"hello","message":"nice to see you again!"}' -H "Content-Type: application/json" localhost:9000/v1/ug/addgreeting
+> curl -d '{"greeting":"good evening","message":"what a pleasant surprise!"}' -H "Content-Type: application/json" localhost:9000/v1/ug/addgreeting
 ```
 
 #### Get greetings
@@ -77,13 +72,8 @@ CREATE UNIQUE INDEX greeting_table_greeting_uindex ON public.greeting_table USIN
 #### Add users
 
 ```bash
-> curl -d '{"username":"markdavis","fullName":"Mark Davis","email":"mark.davis@me.com"}' -H "Content-Type: application
-/json" localhost:9000
-/v1/ug/adduser
-> curl -d '{"username":"johnsmith","fullName":"John Smith","email":"john.smith@me.com"}' -H "Content-Type: application
-/json
-" localhost:9000/v1
-/ug/adduser
+> curl -d '{"username":"markdavis","fullName":"Mark Davis","email":"mark.davis@me.com"}' -H "Content-Type: application/json" localhost:9000/v1/ug/adduser
+> curl -d '{"username":"johnsmith","fullName":"John Smith","email":"john.smith@me.com"}' -H "Content-Type: application/json" localhost:9000/v1/ug/adduser
 ```
 
 #### Get user
