@@ -4,8 +4,6 @@ import models.Constants;
 import models.User;
 import org.mindrot.jbcrypt.BCrypt;
 import play.libs.concurrent.HttpExecutionContext;
-import play.libs.typedmap.TypedKey;
-import play.libs.typedmap.TypedMap;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -71,7 +69,7 @@ public class Authorized extends Action.Simple {
 
     private Supplier<Stream<String>> headerParser(String authToken) {
         return () -> Arrays.stream(authToken.split(" "))
-                        .skip(1).flatMap(encoded ->
+                .skip(1).flatMap(encoded ->
                         Arrays.stream(new String(decodeBase64(encoded.getBytes()))
                                 .split(":")));
     }

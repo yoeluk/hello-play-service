@@ -59,28 +59,32 @@ public class UserController extends Controller {
             return userStore.findByUsername(loginUser.getUsername())
                     .thenApplyAsync(maybeStoredUser -> {
                         if (maybeStoredUser.isPresent()) {
-                            User storedUser = maybeStoredUser.get();
-                            String plainPassword = loginUser.getPassword();
-                            String encodedPassword = storedUser.getCredentials().getPassword();
-                            if (BCrypt.checkpw(plainPassword, encodedPassword)) {
-                                Map<String, String> session = new HashMap<>();
-                                session.put(Constants.SESSION_USERNAME_KEY, storedUser.getUsername());
-                                session.put(Constants.SESSION_USERID_KEY, storedUser.getId().toString());
-                                session.put(Constants.SESSION_USEREMAIL_KEY, storedUser.getEmail());
-                                return redirect(routes.UserController.landingPage())
-                                        .flashing("info", "You are logged in.")
-                                        .withSession(session);
-                            } else {
-                                return redirect(routes.UserController.login())
-                                        .flashing("error", "Login failed!")
-                                        .withNewSession();
-                            }
+                            return presentUser(maybeStoredUser.get(), loginUser);
+
                         } else {
                             return redirect(routes.UserController.login())
                                     .flashing("error", "The user couldn't be found. Please try again or signup!")
                                     .withNewSession();
                         }
                     }, hec.current());
+        }
+    }
+
+    private Result presentUser(User storedUser, LoginUser attemptUser) {
+        String plainPassword = attemptUser.getPassword();
+        String encodedPassword = storedUser.getCredentials().getPassword();
+        if (BCrypt.checkpw(plainPassword, encodedPassword)) {
+            Map<String, String> session = new HashMap<>();
+            session.put(Constants.SESSION_USERNAME_KEY, storedUser.getUsername());
+            session.put(Constants.SESSION_USERID_KEY, storedUser.getId().toString());
+            session.put(Constants.SESSION_USEREMAIL_KEY, storedUser.getEmail());
+            return redirect(controllers.routes.UserController.landingPage())
+                    .flashing("info", "You are logged in.")
+                    .withSession(session);
+        } else {
+            return redirect(controllers.routes.UserController.login())
+                    .flashing("error", "Login failed!")
+                    .withNewSession();
         }
     }
 
@@ -105,6 +109,5 @@ public class UserController extends Controller {
         } else {
             return unauthorized();
         }
-
     }
 }

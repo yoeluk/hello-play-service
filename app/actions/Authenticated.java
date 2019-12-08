@@ -25,6 +25,5 @@ public class Authenticated extends Action.Simple {
                     .withNewSession()
             );
         }
-
     }
 }
