@@ -31,25 +31,29 @@ public class Authorized extends Action.Simple {
         Optional<String> maybeAuthToken = request.getHeaders().get("Authorization");
         if (maybeAuthToken.isPresent()) {
             String authToken = maybeAuthToken.get();
-            Supplier<Stream<String>> parsed = headerParser(authToken);
-            Optional<String> maybeUsername = parsed.get().findFirst();
-            Optional<String> maybePassword = parsed.get().skip(1).findFirst();
-            if (maybePassword.isPresent() && maybeUsername.isPresent()) {
-                String password = maybePassword.get().trim().replace("\n", "");
-                String username = maybeUsername.get().trim().replace("\n", "");
-                return isAuthorizedUser(username, password) // all valid user/password are authorized
-                        .thenComposeAsync(isAuthorized -> {
-                            if (isAuthorized) {
-                                Http.Request forwardedRequest = request.addAttr(Constants.authUsername, username);
-                                return delegate.call(forwardedRequest);
-                            } else {
-                                return CompletableFuture.completedFuture(
-                                        unauthorized("You are not authorized to access the requested resource"));
-                            }
-                        }, hec.current());
-            } else {
-                return CompletableFuture.completedFuture(badRequest());
-            }
+            return processAuth(authToken, request);
+        } else {
+            return CompletableFuture.completedFuture(badRequest());
+        }
+    }
+
+    public CompletionStage<Result> processAuth(String authToken, Http.Request request) {
+        Supplier<Stream<String>> parsed = headerParser(authToken);
+        Optional<String> maybeUsername = parsed.get().findFirst();
+        Optional<String> maybePassword = parsed.get().skip(1).findFirst();
+        if (maybePassword.isPresent() && maybeUsername.isPresent()) {
+            String password = maybePassword.get().trim().replace("\n", "");
+            String username = maybeUsername.get().trim().replace("\n", "");
+            return isAuthorizedUser(username, password) // all valid user/password are authorized
+                .thenComposeAsync(isAuthorized -> {
+                    if (isAuthorized) {
+                        Http.Request forwardedRequest = request.addAttr(Constants.authUsername, username);
+                        return delegate.call(forwardedRequest);
+                    } else {
+                        return CompletableFuture.completedFuture(
+                            unauthorized("You are not authorized to access the requested resource"));
+                    }
+                }, hec.current());
         } else {
             return CompletableFuture.completedFuture(badRequest());
         }
