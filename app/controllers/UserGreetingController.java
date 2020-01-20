@@ -46,6 +46,7 @@ public class UserGreetingController extends Controller {
                         ok(Json.toJson(userGreeting)), hec.current());
     }
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public CompletionStage<Result> getUser(Optional<Long> maybeUserId) {
         if (maybeUserId.isPresent()) {
             long id = maybeUserId.get();
