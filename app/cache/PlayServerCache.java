@@ -11,7 +11,7 @@ public class PlayServerCache implements ServerCache {
     @Inject
     AsyncCacheApi asyncCacheApi;
 
-    public CompletionStage<String> getOrUpdateString(String key, Callable<CompletionStage<String>> callable, int expiry) {
+    public CompletionStage<String> getOrUpdateKey(String key, Callable<CompletionStage<String>> callable, int expiry) {
         return asyncCacheApi.getOrElseUpdate(key, callable, expiry);
     }
 }

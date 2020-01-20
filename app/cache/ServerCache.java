@@ -4,5 +4,5 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionStage;
 
 public interface ServerCache {
-    CompletionStage<String> getOrUpdateString(String key, Callable<CompletionStage<String>> callable, int expiry);
+    CompletionStage<String> getOrUpdateKey(String key, Callable<CompletionStage<String>> callable, int expiry);
 }

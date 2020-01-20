@@ -24,7 +24,7 @@ public class TranslateController extends Controller {
     public CompletionStage<Result> translateMe(String text, String from, String to) {
         String string = text + "&&" + from + "&&" + to;
         String key = String.valueOf(string.hashCode());
-        return serverCache.getOrUpdateString(
+        return serverCache.getOrUpdateKey(
                 key, () -> translate(text, from, to), 600)
                 .thenApplyAsync(Results::ok, exc.current());
     }
