@@ -26,6 +26,7 @@ public class EssentialLoggingFilter extends EssentialFilter {
                 request -> {
                     long startTime = System.currentTimeMillis();
                     Accumulator<ByteString, Result> accumulator = next.apply(request);
+                    //log.info(request.getHeaders().toMap().toString());
                     return accumulator.map(
                             result -> {
                                 long endTime = System.currentTimeMillis();

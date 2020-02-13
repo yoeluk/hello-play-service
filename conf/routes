@@ -8,7 +8,7 @@ GET /v1/ug/allgreetings              controllers.UserGreetingController.allGreet
 
 GET /v1/ug/usergreetings/:id         controllers.UserGreetingController.userGreetings(id: Long)
 
-GET /translate                       controllers.TranslateController.translateMe(text, from, to)
+GET /translate                       controllers.TranslateController.translateMe(text ?= "hello", from ?= "en", to ?= "es")
 
 GET  /                               controllers.HomeController.index
 
@@ -23,3 +23,5 @@ GET  /landingPage                    controllers.UserController.landingPage(requ
 GET  /members/honey                  controllers.UserController.moreHoney(request: Request)
 
 GET  /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
+
+# distributed tracing

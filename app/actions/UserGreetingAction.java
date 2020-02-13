@@ -63,7 +63,7 @@ public class UserGreetingAction extends play.mvc.Action.Simple {
     private CompletionStage<Result> doCall(Http.Request request) {
 
         return  // propagate the request to the next action
-                delegate.call(request)
+            delegate.call(request)
                 // handle the returned result from the action chain propagation
                 .handleAsync((result, e) -> {
                     if (e != null) {
@@ -90,6 +90,6 @@ public class UserGreetingAction extends play.mvc.Action.Simple {
                         // successful result
                         return result;
                     }
-        }, ec.current());
+                }, ec.current());
     }
 }
